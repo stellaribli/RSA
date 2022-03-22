@@ -1,10 +1,13 @@
+from time import process_time
+
 c = 0 #cipherteks
 m = '' #plainteks
 d = 1019 #kunci dekripsi
 e = 79 #kunci enkripsi
 n = 3337 #p*q
 concatM = 0
-
+t1 = 0
+t2 = 0
 def convertPlainText(m):
     m = m.replace(" ","")
     M = ''
@@ -20,6 +23,7 @@ def convertPlainText(m):
     return M
 
 def encrypt (M,e,n):
+    t1 = process_time()
     Cipher = ''
     C = ''
     hasil = ''
@@ -45,9 +49,12 @@ def encrypt (M,e,n):
             Cipher = Cipher + '0' + str(hasil) + ' '
         else:
             Cipher = Cipher + str(hasil) + ' '
-    return Cipher
+    t2 = process_time()
+    t = t2-t1
+    return Cipher, t
 
 def decrypt (C,d,n):
+    t1 = process_time()
     C = C.replace(' ','')
     Plain = ''
     P = ''
@@ -63,11 +70,22 @@ def decrypt (C,d,n):
             Plain = Plain + '0' + str(hasil) 
         else:
             Plain = Plain + str(hasil)
-    return Plain
+    t2 = process_time()
+    t = t2-t1
+    return Plain, t
 
 M = convertPlainText('HELLO ALICE')
 enkr = (encrypt(M,e,n))
-print(enkr)
-print(decrypt(enkr,d,n))
+# print(hex(int(enkr.replace(' ',''))))
+
+print((encrypt(M,e,n))[0]) # hasil enkripsi
+print((encrypt(M,e,n))[1]) # waktu enkripsi dalam detik
+enkr = encrypt(M,e,n)[0]
+print(hex(int(enkr.replace(' ','')))) #hasil enkripsi dlm hexa
+print(decrypt(enkr,d,n)[0]) # hasil dekripsi
+print(decrypt(enkr,d,n)[1]) # waktu dekripsi dalam detik
+
+
+# print ('Waktu Dekripsi ' + str(t2-t1) +' detik')
 # print ((4//2)==(4/2))
 # print(5//2)
