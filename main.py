@@ -1,6 +1,6 @@
 c = 0 #cipherteks
 m = '' #plainteks
-d = 0 #kunci dekripsi
+d = 1019 #kunci dekripsi
 e = 79 #kunci enkripsi
 n = 3337 #p*q
 concatM = 0
@@ -20,8 +20,6 @@ def convertPlainText(m):
     return M
 
 def encrypt (M,e,n):
-    # length = int(len(M)/4)
-    # print(length)
     Cipher = ''
     C = ''
     hasil = ''
@@ -49,8 +47,27 @@ def encrypt (M,e,n):
             Cipher = Cipher + str(hasil) + ' '
     return Cipher
 
-M = convertPlainText('HELLO ALICE')
-print(encrypt(M,e,n))
+def decrypt (C,d,n):
+    C = C.replace(' ','')
+    Plain = ''
+    P = ''
+    hasil = ''
+    for i in range(len(C)//4):
+        P = C[i*4:((i*4)+4)]
+        hasil = (int(P)**d)%n
+        if hasil < 10:
+            Plain = Plain + '000' + str(hasil) 
+        elif hasil < 100:
+            Plain = Plain + '00' + str(hasil) 
+        elif hasil < 1000:
+            Plain = Plain + '0' + str(hasil) 
+        else:
+            Plain = Plain + str(hasil)
+    return Plain
 
+M = convertPlainText('HELLO ALICE')
+enkr = (encrypt(M,e,n))
+print(enkr)
+print(decrypt(enkr,d,n))
 # print ((4//2)==(4/2))
 # print(5//2)
