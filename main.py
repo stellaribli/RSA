@@ -51,6 +51,11 @@ def encrypt (M,e,n):
             Cipher = Cipher + str(hasil) + ' '
     t2 = process_time()
     t = t2-t1
+    Cipher = hex(int(Cipher.replace(' ','')))
+    file = open('HasilKonversi.txt', 'w')
+    file.write(Cipher)
+    file.close()
+    # print(hex(int(Cipher.replace(' ',''))))
     return Cipher, t
 
 def decrypt (C,d,n):
@@ -80,10 +85,10 @@ enkr = (encrypt(M,e,n))
 
 print((encrypt(M,e,n))[0]) # hasil enkripsi
 print((encrypt(M,e,n))[1]) # waktu enkripsi dalam detik
-enkr = encrypt(M,e,n)[0]
-print(hex(int(enkr.replace(' ','')))) #hasil enkripsi dlm hexa
-print(decrypt(enkr,d,n)[0]) # hasil dekripsi
-print(decrypt(enkr,d,n)[1]) # waktu dekripsi dalam detik
+# enkr = encrypt(M,e,n)[0]
+# print(hex(int(enkr.replace(' ','')))) #hasil enkripsi dlm hexa
+# print(decrypt(enkr,d,n)[0]) # hasil dekripsi
+# print(decrypt(enkr,d,n)[1]) # waktu dekripsi dalam detik
 
 
 # print ('Waktu Dekripsi ' + str(t2-t1) +' detik')
