@@ -56,10 +56,16 @@ def encrypt (M,e,n):
     file = open('HasilKonversiEncrypt.txt', 'w')
     file.write(Cipher)
     file.close()
-    file_size = os.stat('HasilKonversiEncrypt.txt')
+    file_size = os.path.getsize('HasilKonversiEncrypt.txt')
     return Cipher, t, file_size
 
-def decrypt (C,d,n):
+def tambahnol(C):
+    if len(C)%2!=0:
+        C = '0' + C
+    return C
+
+def decrypt (C,d,n): #kalo mau pake fungsi ini harus jadiin decimal dulu
+    C = tambahnol(str(C))
     t1 = process_time()
     C = str(C).replace(' ','')
     Plain = ''
@@ -81,20 +87,26 @@ def decrypt (C,d,n):
     file = open('HasilKonversiDecrypt.txt', 'w')
     file.write(Plain)
     file.close()
-    file_size = os.stat('HasilKonversiDecrypt.txt')
+    file_size = os.path.getsize('HasilKonversiDecrypt.txt')
     
     return Plain, t, file_size
+
 
 M = convertPlainText('HELLO ALICE')
 enkr = (encrypt(M,e,n))
 # print(hex(int(enkr.replace(' ',''))))
-
 print((encrypt(M,e,n))[0]) # hasil enkripsi
-print((encrypt(M,e,n))[1]) # waktu enkripsi dalam detik
-# enkr = encrypt(M,e,n)[0]
-# print(hex(int(enkr.replace(' ','')))) #hasil enkripsi dlm hexa
+# print((encrypt(M,e,n))[1]) # waktu enkripsi dalam detik
+# print((encrypt(M,e,n))[2]) # hasil enkripsi
+# print(int(enkr[0],16)) #hasil enkrip0si dlm hexa
+print(decrypt(int(enkr[0],16),d,n))
+# print(len('03280301265329861164'))
+# print(len('3280301265329861164'))
 # print(decrypt(enkr,d,n)[0]) # hasil dekripsi
 # print(decrypt(enkr,d,n)[1]) # waktu dekripsi dalam detik
 # print ('Waktu Dekripsi ' + str(t2-t1) +' detik')
 # print ((4//2)==(4/2))
 # print(5//2)
+file1 = open('HasilKonversiEncrypt.txt', "rt")
+data = file1.read()
+i = int(data, 16)
