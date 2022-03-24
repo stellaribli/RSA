@@ -9,6 +9,8 @@ import codecs
 import PyQt5.QtWidgets as pyqt
 from time import process_time
 import os
+
+from main import decrypt
 class Landing(QDialog):
     def __init__(self):
         super(Landing, self).__init__()
@@ -66,7 +68,6 @@ class Text(QDialog):
         file.close()
         file_size = os.path.getsize('HasilKonversiEncrypt.txt')
         return Cipher, t, file_size
-
     def convertPlainText(self,m):
         m = m.replace(" ","")
         M = ''
@@ -80,6 +81,14 @@ class Text(QDialog):
             else:
                 M = M + '0' + str(concatM)
         return M
+    def convertAngka (self,m):
+        P = ''
+        Teks = ''
+        for i in range(len(m)//2):
+            P = m[i*2:((i*2)+2)]
+            Teks = Teks + str(chr(int(P)+65))
+        return Teks   
+
     def decryptFunction (self,C,d,n):
         t1 = process_time()
         C = str(C).replace(' ','')
@@ -124,15 +133,26 @@ class Text(QDialog):
         self.hasil_2.setText(cipherteks) 
         self.hasil_3.setText(waktuproses) 
         self.hasil_4.setText(ukuranfile) 
-
+    
     def decrypt(self):
         nilaiP = self.nilaip.text()
         nilaiQ = self.nilaiq.text()
         file1 = open('inputDekripsi.txt')
-        plainteks = 'Plainteks: ' + 'varD'
-        cipherteks = 'Cipherteks: ' + 'varD'
-        waktuproses = 'Waktu Proses: ' + 'varD'
-        ukuranfile = 'Ukuran File: ' + 'varD'
+        data = file1.read()
+        if data[:2] == '0x':
+            cipherteks = 'Cipherteks: ' + str(data)
+            data = int(data,16)
+        else:
+            cipherteks = 'Cipherteks: ' + hex(int(data.replace(' ','')))
+        
+        d = 1019
+        n = int(nilaiP) * int(nilaiQ)
+        print(data)
+        plain = self.decryptFunction(data,d,n)
+        plainteks = 'Plainteks: ' + str(self.convertAngka(plain[0])) #belomkonversi
+        waktuDekripsi = "%.2f" %plain[1]
+        waktuproses = 'Waktu Proses: ' + waktuDekripsi + ' detik'
+        ukuranfile = 'Ukuran File: ' + str(plain[2]) + ' bytes'
         self.hasil.setText(plainteks) 
         self.hasil_2.setText(cipherteks) 
         self.hasil_3.setText(waktuproses) 
@@ -277,6 +297,11 @@ class Main(QDialog):
             # data = file1.read()
         else:
             print("No file selected")  
+
+
+
+
+
 
 app = QApplication(sys.argv)
 widget = QtWidgets.QStackedWidget()
