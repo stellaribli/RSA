@@ -299,7 +299,7 @@ font: 17pt &quot;Mulish&quot;;color:#fff;
     <string>File Belum Diupload!</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="generateButton">
+  <widget class="QPushButton" name="genButton">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -322,7 +322,7 @@ font: 17pt &quot;Mulish&quot;;color:#fff;
  }</string>
    </property>
    <property name="text">
-    <string>Generate Keys</string>
+    <string>Generate Key</string>
    </property>
   </widget>
   <zorder>frame</zorder>
@@ -338,7 +338,7 @@ font: 17pt &quot;Mulish&quot;;color:#fff;
   <zorder>uploadButton</zorder>
   <zorder>decryptB</zorder>
   <zorder>fileName</zorder>
-  <zorder>generateButton</zorder>
+  <zorder>genButton</zorder>
  </widget>
  <resources/>
  <connections/>
