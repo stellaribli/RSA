@@ -13,7 +13,8 @@ import os
 from main import decrypt
 import random
 
-
+global data
+global teks
 def gcd(x,y):
     if x > y:
         var = y
@@ -185,9 +186,6 @@ class Text(QDialog):
     def encrypt(self):
         nilaiP = self.nilaip.text()
         nilaiQ = self.nilaiq.text()
-        file1 = open('inputEnkripsi.txt')
-        data = file1.read()
-        print(data+"sdfadsf")
         M = self.convertPlainText(data)
         n = int(nilaiP) * int(nilaiQ)
         e = generateKey(int(nilaiP),int(nilaiQ))[1]
@@ -205,8 +203,8 @@ class Text(QDialog):
     def decrypt(self):
         nilaiP = self.nilaip.text()
         nilaiQ = self.nilaiq.text()
-        file1 = open('inputDekripsi.txt')
-        data = file1.read()
+        global data
+        data = str(data)
         if data[:2] == '0x':
             cipherteks = 'Cipherteks: ' + str(data)
             data = int(data,16)
@@ -227,14 +225,13 @@ class Text(QDialog):
         self.hasil_4.setText(ukuranfile) 
         print('Dekripsi')
     def upload(self):
-        fileName, _ = QFileDialog.getOpenFileName(
-            self, "Upload File", "")
+        fileName, _ = QFileDialog.getOpenFileName(self, "Upload File","","Text files (*.txt)")
         if fileName:
             global data
             self.uploadedFile = fileName
-            # self.fileName.setText(os.path.basename(fileName))
-            # file1 = open(fileName)
-            # data = file1.read()
+            self.fileName.setText(os.path.basename(fileName))
+            with open(self.uploadedFile,'rt') as d:
+                data = d.read()
         else:
             print("No file selected")  
         
@@ -323,7 +320,6 @@ class Main(QDialog):
         nilaiQ = self.nilaiq.text()
         file1 = open('inputEnkripsi.txt')
         data = file1.read()
-        print(data+"sdfadsf")
         M = self.convertPlainText('HELLOALICE')
         n = int(nilaiP) * int(nilaiQ)
         e = 79
@@ -355,14 +351,17 @@ class Main(QDialog):
         self.hasil_4.setText(ukuranfile) 
         print('Dekripsi')
     def upload(self):
+        global teks
         fileName, _ = QFileDialog.getOpenFileName(
             self, "Upload File", "")
         if fileName:
-            global data
             self.uploadedFile = fileName
-            # self.fileName.setText(os.path.basename(fileName))
-            # file1 = open(fileName)
-            # data = file1.read()
+            self.fileName.setText(os.path.basename(fileName))
+            with open(self.uploadedFile,'rb') as d:
+                bytesData = d.read()
+                b64content = base64.b64encode(bytesData)
+                teks = b64content.decode('utf-8')
+            print(teks)
         else:
             print("No file selected")  
 
